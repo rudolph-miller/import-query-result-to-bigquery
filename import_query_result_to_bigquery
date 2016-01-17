@@ -1,0 +1,25 @@
+#!/bin/bash
+
+QUERY_DIR=query
+PROJECT=your_project
+DATASET=tmp
+
+export service_account_email=example@developer.gserviceaccount.com
+export p12_keyfile=/path/to/p12_keyfile.p12
+
+export mysql_host=localhost
+export mysql_user=root
+export mysql_password=password
+export mysql_database=your_database
+export projct=$PROJECT
+export dataset=$DATASET
+
+for file in $QUERY_DIR/*.sql; do
+  export query=`cat $file`
+  filename=${file##*/}
+  basename=${filename%.*}
+  dir=$(cd $(dirname $file) && pwd)
+  export table=$basename
+  export schema_file=$dir/$basename.schema.json
+  embulk run config.yml.liquid
+done

@@ -1,0 +1,27 @@
+in:
+  type: mysql
+  host: {{ env.mysql_host }}
+  user: {{ env.mysql_user }}
+  {% if env.mysql_password %}
+    password: {{ env.mysql_password }}
+  {% endif %}
+  database:  {{ env.mysql_database }}
+  query: {{ env.query }}
+out:
+  type: bigquery
+  file_ext: csv
+  auth_method: private_key
+  service_account_email: {{ env.service_account_email }}
+  p12_keyfile: {{ env.p12_keyfile }}
+  path_prefix: /tmp/import_query_result_to_bq/
+  file_ext: csv
+  delete_from_local_when_job_end: 1
+  project: {{ env.project }}
+  dataset: {{ env.dataset }}
+  table: {{ env.table }}_%Y%m%d
+  source_format: CSV
+  formatter:
+    type: csv
+    header_line: false
+  schema_file: {{ env.schema_file }}
+  auto_create_table: 1
