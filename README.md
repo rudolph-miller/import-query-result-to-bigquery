@@ -1,3 +1,3 @@
-# Import SQL to BQ
+# Import Query result to BigQuery
 
 WIP
